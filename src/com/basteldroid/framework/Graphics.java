@@ -27,5 +27,5 @@ public interface Graphics {
 
     public int getHeight();
 
-    public void drawARGB(int i, int j, int k, int l);
+    public void drawARGB(int a, int r, int g, int b);
 }
