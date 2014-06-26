@@ -121,8 +121,7 @@ public class AndroidGraphics implements Graphics {
 
 	@Override
 	public void drawImage(Image Image, int x, int y) {
-		// TODO Auto-generated method stub
-
+		canvas.drawBitmap(((AndroidImage)Image).bitmap, x, y, null);
 	}
 
 	@Override
