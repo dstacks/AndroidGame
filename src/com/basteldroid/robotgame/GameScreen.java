@@ -6,12 +6,14 @@ import java.util.Scanner;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.basteldroid.framework.Game;
 import com.basteldroid.framework.Graphics;
 import com.basteldroid.framework.Image;
 import com.basteldroid.framework.Input.TouchEvent;
 import com.basteldroid.framework.Screen;
+import com.basteldroid.framework.implementation.AccelerometerHandler;
 
 public class GameScreen extends Screen {
 	
@@ -87,10 +89,25 @@ public class GameScreen extends Screen {
 	
 	private void loadMap() {
 		ArrayList lines = new ArrayList();
-		int width;
-		int height;
+		int width = 0;
+		int height = 0;
+		Scanner scanner;
 		
-		Scanner scanner = new Scanner(SampleGame.map);
+		// Scanner scanner = new Scanner(SampleGame.map);
+		if (Settings.currentLevel == 0) {
+			scanner = new Scanner(SampleGame.map);
+			System.out.println("THIS");
+		} else if (Settings.currentLevel == 1) {
+			scanner = new Scanner(SampleGame.map2);
+			System.out.println("THAT");
+		} else {
+			// DEFAULT VALUE IN CASE OF ERROR
+			scanner = new Scanner(SampleGame.map);
+			System.out.println("OTHER");
+		}
+		
+		System.out.println(Settings.currentLevel);
+		
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
 			
@@ -121,6 +138,10 @@ public class GameScreen extends Screen {
 	@Override
 	public void update(float deltaTime) {
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
+		
+		// Beschleunigungsmesser
+		float accelX = AccelerometerHandler.getAccelX();
+		Log.d("Beschleunigungsmesser", "AccelX: " + accelX);
 		
 		// Hier haben wir 4 verschiedene update()-Methoden
 		// Je nach Spielstand rufen wir eine der 3 auf
@@ -207,7 +228,7 @@ public class GameScreen extends Screen {
 			currentSprite = anim.getImage();
 		}
 		
-		ArrayList projectiles = robot.getProjectiles();
+		ArrayList<Projectile> projectiles = robot.getProjectiles();
 		for (int i = 0; i < projectiles.size(); i++) {
 			Projectile p = (Projectile) projectiles.get(i);
 			if (p.isVisible() == true) {
@@ -392,6 +413,7 @@ public class GameScreen extends Screen {
 		if (state == GameState.Running) {
 			state = GameState.Paused;
 		}
+		Settings.save(game.getFileIO());
 	}
 
 	@Override

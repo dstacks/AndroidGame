@@ -1,6 +1,7 @@
 package com.basteldroid.robotgame;
 
 import java.util.List;
+import java.util.Random;
 
 import com.basteldroid.framework.Game;
 import com.basteldroid.framework.Graphics;
@@ -23,6 +24,18 @@ public class MainMenuScreen extends Screen {
 			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
 				if (inBounds(event, 50, 350, 250, 450)) {
+					// game.setScreen(new GameScreen(game));
+					Random r = new Random();
+					if (r.nextInt(2) == 0) {
+						System.out.println("THIS");
+						Settings.currentLevel = 0;
+						Settings.save(game.getFileIO());
+					} else {
+						System.out.println("THAT");
+						Settings.currentLevel = 1;
+						Settings.save(game.getFileIO());
+					}
+					
 					game.setScreen(new GameScreen(game));
 				}
 			}

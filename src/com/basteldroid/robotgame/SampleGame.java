@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import android.app.Activity;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.basteldroid.androidgame.R;
 import com.basteldroid.framework.Screen;
@@ -13,8 +15,9 @@ import com.basteldroid.framework.implementation.AndroidGame;
 
 public class SampleGame extends AndroidGame {
 	
-	public static String map;
+	public static String map, map2;
 	boolean firstTimeCreate = true;
+	public static int screenRotation;
 
 	@Override
 	public Screen getInitScreen() {
@@ -24,7 +27,9 @@ public class SampleGame extends AndroidGame {
 		}
 		
 		InputStream is = getResources().openRawResource(R.raw.map1);
+		InputStream is2 = getResources().openRawResource(R.raw.map2);
 		map = convertStreamToString(is);
+		map2 = convertStreamToString(is2);
 		
 		return new SplashLoadingScreen(this);
 	}
@@ -62,6 +67,8 @@ public class SampleGame extends AndroidGame {
 		super.onResume();
 		
 		Assets.theme.play();
+		WindowManager windowMgr = (WindowManager) this.getSystemService(Activity.WINDOW_SERVICE);
+		screenRotation = windowMgr.getDefaultDisplay().getRotation();
 	}
 	
 	@Override

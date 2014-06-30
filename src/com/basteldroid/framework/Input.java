@@ -23,4 +23,10 @@ public interface Input {
     public int getTouchY(int pointer);
 
     public List<TouchEvent> getTouchEvents();
+    
+    public float getAccelX();
+    
+    public float getAccelY();
+    
+    public float getAccelZ();
 }
